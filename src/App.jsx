@@ -1,8 +1,17 @@
+import MainLayout from "./features/shared/layout/MainLayout"
 
+import { BrowserRouter } from "react-router-dom";
+
+import Dashboard from "./features/dashboard/pages/Dashboard";
 
 function App() {
-
-  return <h1 className='text-3xl text-blue-500'>Dashboard</h1>
+  return (
+    <BrowserRouter>
+      <MainLayout>
+        <Dashboard />
+      </MainLayout>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
