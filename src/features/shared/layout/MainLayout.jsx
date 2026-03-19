@@ -17,7 +17,7 @@ const MainLayout = ({ children }) => {
     <div className="flex h-screen">
 
       {/* Sidebar */}
-      <div className={`bg-gray-900 text-white flex flex-col transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>
+      <div className={`bg-gray-900 text-white flex flex-col transition-all duration-300 ${isOpen ? "w-60" : "w-16"}`}>
 
         {/* Top (Logo + Toggle) */}
         <div className="flex items-center justify-between p-4">
