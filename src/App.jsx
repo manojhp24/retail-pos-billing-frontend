@@ -1,4 +1,4 @@
-import MainLayout from "./features/shared/layout/MainLayout"
+import MainLayout from "./features/shared/layout/MainLayout";
 
 import { BrowserRouter } from "react-router-dom";
 

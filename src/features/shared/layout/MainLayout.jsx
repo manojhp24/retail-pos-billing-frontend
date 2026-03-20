@@ -15,10 +15,10 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className="flex h-screen">
-
       {/* Sidebar */}
-      <div className={`bg-gray-900 text-white flex flex-col transition-all duration-300 ${isOpen ? "w-60" : "w-16"}`}>
-
+      <div
+        className={`bg-gray-900 text-white flex flex-col transition-all duration-300 ${isOpen ? "w-60" : "w-16"}`}
+      >
         {/* Top (Logo + Toggle) */}
         <div className="flex items-center justify-between p-4">
           {isOpen && <span className="text-lg font-semibold">POS</span>}
@@ -61,7 +61,6 @@ const MainLayout = ({ children }) => {
 
       {/* Right side */}
       <div className="flex flex-1 flex-col bg-gray-100">
-
         {/* Header */}
         <div className="h-16 bg-white flex items-center px-4 shadow">
           <h2 className="text-lg font-medium">Retail POS</h2>
@@ -71,7 +70,6 @@ const MainLayout = ({ children }) => {
         <div className="m-4 flex-1 bg-white p-6 rounded-xl shadow overflow-auto">
           {children}
         </div>
-
       </div>
     </div>
   );
