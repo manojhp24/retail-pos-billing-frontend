@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Outlet } from "react-router-dom";
 import { Home, Package, ShoppingCart, Users, Menu } from "lucide-react";
 import { useState } from "react";
 
@@ -67,8 +67,8 @@ const MainLayout = ({ children }) => {
         </div>
 
         {/* Content */}
-        <div className="m-4 flex-1 bg-white p-6 rounded-xl shadow overflow-auto">
-          {children}
+        <div className="m-4 flex-1 overflow-auto">
+          <Outlet />
         </div>
       </div>
     </div>
