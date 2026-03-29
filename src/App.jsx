@@ -11,7 +11,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<MyTable />} />
-          <Route path="/inventory"  />
+          <Route path="/inventory" element={<InventoryList />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />
@@ -20,5 +20,6 @@ function App() {
   );
 }
 import MyTable from "./features/product/pages/ProductsList";
+import InventoryList from "./features/inventory/pages/InventoryList";
 
 export default App;
