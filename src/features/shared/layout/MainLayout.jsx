@@ -1,14 +1,15 @@
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Home, Package, ShoppingCart, Users, Menu } from "lucide-react";
+import { Home, Package, ShoppingCart, Users, Menu, Archive } from "lucide-react";
 import { useState } from "react";
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(true);
 
   const menu = [
     { name: "Dashboard", path: "/dashboard", icon: Home },
     { name: "Products", path: "/products", icon: Package },
+    { name: "Inventory", path: "/inventory", icon: Archive},
     { name: "Billing", path: "/billing", icon: ShoppingCart },
     { name: "Users", path: "/users", icon: Users },
   ];

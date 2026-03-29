@@ -11,6 +11,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<MyTable />} />
+          <Route path="/inventory"  />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />
