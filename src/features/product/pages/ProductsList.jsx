@@ -4,6 +4,7 @@ import { useProducts } from "../hooks/useProducts";
 import ProductTable from "../components/productTable";
 import ProductModal from "../components/productModal";
 import { ToastContainer } from "react-toastify";
+import PageHeader from "@/features/shared/PageHeader";
 
 const ProductsList = () => {
   const { products, addProduct, deleteProduct, updateProduct, loading, error } =
@@ -46,12 +47,11 @@ const ProductsList = () => {
   return (
     <>
       <ToastContainer position="bottom-right" autoClose={3000} />
+      <PageHeader title="Products" description="Manage your products" />
       <div className=" flex justify-center">
         <div className="w-full bg-white shadow-md rounded-xl p-6">
           {/* Header */}
-          <div className="flex justify-between mb-4">
-            <h2 className="text-xl font-semibold">Products</h2>
-          </div>
+
 
           {/* Table */}
 

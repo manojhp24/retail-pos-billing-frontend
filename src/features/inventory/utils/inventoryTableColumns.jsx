@@ -3,7 +3,7 @@ import { Hash, Tag, Box, History, Clock, RefreshCcw } from "lucide-react";
 
 const columnHelper = createColumnHelper();
 
-const inventoryColumns = () => [
+const inventoryColumns = (onActions) => [
   columnHelper.accessor("id", {
     header: ({ column }) => (
       <div
@@ -14,7 +14,7 @@ const inventoryColumns = () => [
       </div>
     ),
   }),
-  columnHelper.accessor("name", {
+  columnHelper.accessor("product", {
     header: ({ column }) => (
       <div
         onClick={column.getToggleSortingHandler()}
@@ -51,11 +51,11 @@ const inventoryColumns = () => [
     header: "Action",
     cell: ({ row }) => (
       <div className="flex justify-end gap-2">
-        <button className="px-3 py-1 text-xs border border-green-200 text-green-600 rounded hover:bg-green-50">
+        <button onClick={() => onActions(row.original, "restock")} className="px-3 py-1 text-xs border border-green-200 text-green-600 rounded hover:bg-green-50">
           Restock
         </button>
 
-        <button className="px-3 py-1 text-xs border border-red-200 text-red-600 rounded hover:bg-red-50">
+        <button onClick={() => onActions(row.original, "reduce")} className="px-3 py-1 text-xs border border-red-200 text-red-600 rounded hover:bg-red-50">
           Reduce
         </button>
       </div>
