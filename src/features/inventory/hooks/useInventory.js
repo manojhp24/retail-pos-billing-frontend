@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { getAllInventory } from "../services/inventoryApi";
+import {
+  getAllInventory,
+  restockInventory,
+  reduceInventory,
+} from "../services/inventoryApi";
 import { handleApiError } from "@/utils/errorHandler";
 import { toast } from "react-toastify";
 
@@ -23,9 +27,56 @@ export const useInventory = () => {
     }
   };
 
+  const inventoryRestock = async (id, quantity) => {
+    try {
+      setLoading(true);
+      await restockInventory(id, quantity);
+      setInventory((prev) =>
+        prev.map((item) =>
+          item.product.id === id
+            ? { ...item, stock: item.stock + quantity }
+            : item,
+        ),
+      );
+      toast.success("Inventor Restocked");
+    } catch (error) {
+      const message = handleApiError(error);
+      setError(message);
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const inventoryReduce = async (id, quantity) => {
+    try {
+      setLoading(true);
+      await reduceInventory(id, quantity);
+      setInventory((prev) =>
+        prev.map((item) =>
+          item.product.id === id
+            ? { ...item, stock: item.stock - quantity }
+            : item,
+        ),
+      );
+      toast.success("Inventory Reduced");
+    } catch (error) {
+      const message = handleApiError(error);
+      setError(message);
+      toast.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchAllInevntory();
   }, []);
 
-  return { inventory, loading, error, fetchAllInevntory };
+  return {
+    inventory,
+    loading,
+    error,
+    fetchAllInevntory,
+    inventoryRestock,
+    inventoryReduce,
+  };
 };

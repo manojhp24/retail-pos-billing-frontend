@@ -8,6 +8,7 @@ export default function InventoryModal({
     actionType = "restock",
     selectedProduct = { product: "Ghurkha Pants", stock: 0 },
     onConfirm = () => { },
+    onReduce = () => { }
 }) {
     const [quantity, setQuantity] = useState("");
     const isRestock = actionType === "restock";
@@ -131,6 +132,7 @@ export default function InventoryModal({
                                         onConfirm(Number(quantity));
                                         setIsModalOpen(false);
                                     }
+
                                 }}
                                 disabled={!quantity || isReduceError}
                                 className={`flex-1 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed

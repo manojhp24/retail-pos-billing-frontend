@@ -6,7 +6,7 @@ import { useState } from "react";
 import InventoryModal from "./InventoryModal";
 
 const InventoryTable = () => {
-  const { inventory, loading, error } = useInventory();
+  const { inventory, loading, error, inventoryRestock, inventoryReduce } = useInventory();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -21,11 +21,23 @@ const InventoryTable = () => {
   }
 
   const inventoryData = inventory.map((inv) => ({
-    id: inv.id,
+    id: inv.product.id,
     product: inv.product.name,
     stock: inv.stock,
     lastUpdated: inv.lastUpdated
   }))
+
+  const handleConfirm = async (quantity) => {
+    if (actionType === "restock") {
+
+      await inventoryRestock(selectedProduct.id, quantity)
+    }
+    if (actionType === "reduce") {
+      await inventoryReduce(selectedProduct.id, quantity)
+    }
+
+    setIsModalOpen(false)
+  }
 
 
 
@@ -40,6 +52,7 @@ const InventoryTable = () => {
         setIsModalOpen={setIsModalOpen}
         actionType={actionType}
         selectedProduct={selectedProduct}
+        onConfirm={handleConfirm}
       />
 
     </div>
