@@ -1,67 +1,61 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Hash, Tag, Box, History, Clock, RefreshCcw } from "lucide-react";
+import { Hash, Tag, Box, Clock } from "lucide-react";
 
 const columnHelper = createColumnHelper();
 
+
+const SortableHeader = (column, Icon, label) => (
+  <div
+    onClick={column.getToggleSortingHandler()}
+    className="flex items-center gap-2 cursor-pointer"
+  >
+    <Icon size={14} />
+    {label}
+  </div>
+);
+
 const inventoryColumns = (onActions) => [
   columnHelper.accessor("id", {
-    header: ({ column }) => (
-      <div
-        onClick={column.getToggleSortingHandler()}
-        className="flex items-center gap-2 cursor-pointer"
-      >
-        <Hash size={14} /> ID
-      </div>
-    ),
-  }),
-  columnHelper.accessor("product", {
-    header: ({ column }) => (
-      <div
-        onClick={column.getToggleSortingHandler()}
-        className="flex items-center gap-2 cursor-pointer"
-      >
-        <Tag size={14} /> Product
-      </div>
-    ),
-  }),
-  columnHelper.accessor("stock", {
-    header: ({ column }) => (
-      <div
-        onClick={column.getToggleSortingHandler()}
-        className="flex items-center gap-2 cursor-pointer"
-      >
-        <Box size={14} /> Stock
-      </div>
-    ),
-  }),
-  columnHelper.accessor("lastUpdated", {
-    header: ({ column }) => (
-      <div
-        onClick={column.getToggleSortingHandler()}
-        className="flex items-center gap-2 cursor-pointer"
-      >
-        <Clock size={14} /> Last Updated
-      </div>
-    ),
+    header: ({ column }) => SortableHeader(column, Hash, "ID"),
   }),
 
+  columnHelper.accessor("product", {
+    header: ({ column }) => SortableHeader(column, Tag, "Product"),
+  }),
+
+  columnHelper.accessor("stock", {
+    header: ({ column }) => SortableHeader(column, Box, "Stock"),
+  }),
+
+  columnHelper.accessor("lastUpdated", {
+    header: ({ column }) => SortableHeader(column, Clock, "Last Updated"),
+  }),
 
   columnHelper.display({
     id: "actions",
     header: "Action",
-    cell: ({ row }) => (
-      <div className="flex justify-end gap-2">
-        <button onClick={() => onActions(row.original, "restock")} className="px-3 py-1 text-xs border border-green-200 text-green-600 rounded hover:bg-green-50">
-          Restock
-        </button>
+    cell: ({ row }) => {
+      const item = row.original;
 
-        <button onClick={() => onActions(row.original, "reduce")} className="px-3 py-1 text-xs border border-red-200 text-red-600 rounded hover:bg-red-50">
-          Reduce
-        </button>
-      </div>
-    ),
-  })
+      return (
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => onActions(item, "restock")}
+            className="px-3 py-1 text-xs border border-green-200 text-green-600 rounded hover:bg-green-50"
+          >
+            Restock
+          </button>
+
+          <button
+            onClick={() => onActions(item, "reduce")}
+            className="px-3 py-1 text-xs border border-red-200 text-red-600 rounded hover:bg-red-50"
+          >
+            Reduce
+          </button>
+        </div>
+      );
+    },
+  }),
 ];
-
 
 export default inventoryColumns;

@@ -72,9 +72,9 @@ const ProductModal = ({
               className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2.5 rounded-xl outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all bg-white"
             >
               <option value="">Select Category</option>
-              <option value="electronics">Electronics</option>
-              <option value="fashion">Fashion</option>
-              <option value="books">Books</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Books">Books</option>
             </select>
           </div>
 

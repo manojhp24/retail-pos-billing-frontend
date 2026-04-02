@@ -7,19 +7,27 @@ import {
 import { handleApiError } from "@/utils/errorHandler";
 import { toast } from "react-toastify";
 
+// 🔹 Success message mapping
+const SUCCESS_MESSAGES = {
+  restock: "Inventory restocked successfully",
+  reduce: "Inventory reduced successfully",
+};
+
 export const useInventory = () => {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchAllInevntory = async () => {
+  // 🔹 Fetch inventory
+  const fetchAllInventory = async () => {
     try {
       setLoading(true);
       setError(null);
+
       const res = await getAllInventory();
       setInventory(res.data);
-    } catch (error) {
-      const message = handleApiError(error);
+    } catch (err) {
+      const message = handleApiError(err);
       setError(message);
       toast.error(message);
     } finally {
@@ -27,20 +35,34 @@ export const useInventory = () => {
     }
   };
 
+  // 🔹 Update stock (common logic)
+  const updateInventory = (id, quantity, type) => {
+    setInventory((prev) =>
+      prev.map((item) =>
+        item.product.id === id
+          ? {
+              ...item,
+              stock:
+                type === "restock"
+                  ? item.stock + quantity
+                  : item.stock - quantity,
+            }
+          : item,
+      ),
+    );
+  };
+
+  // 🔹 Restock
   const inventoryRestock = async (id, quantity) => {
     try {
       setLoading(true);
+
       await restockInventory(id, quantity);
-      setInventory((prev) =>
-        prev.map((item) =>
-          item.product.id === id
-            ? { ...item, stock: item.stock + quantity }
-            : item,
-        ),
-      );
-      toast.success("Inventor Restocked");
-    } catch (error) {
-      const message = handleApiError(error);
+      updateInventory(id, quantity, "restock");
+
+      toast.success(SUCCESS_MESSAGES.restock);
+    } catch (err) {
+      const message = handleApiError(err);
       setError(message);
       toast.error(message);
     } finally {
@@ -48,34 +70,33 @@ export const useInventory = () => {
     }
   };
 
+  // 🔹 Reduce
   const inventoryReduce = async (id, quantity) => {
     try {
       setLoading(true);
+
       await reduceInventory(id, quantity);
-      setInventory((prev) =>
-        prev.map((item) =>
-          item.product.id === id
-            ? { ...item, stock: item.stock - quantity }
-            : item,
-        ),
-      );
-      toast.success("Inventory Reduced");
-    } catch (error) {
-      const message = handleApiError(error);
+      updateInventory(id, quantity, "reduce");
+
+      toast.success(SUCCESS_MESSAGES.reduce);
+    } catch (err) {
+      const message = handleApiError(err);
       setError(message);
-      toast.error(error);
+      toast.error(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAllInevntory();
+    fetchAllInventory();
   }, []);
 
   return {
     inventory,
     loading,
     error,
-    fetchAllInevntory,
+    fetchAllInventory,
     inventoryRestock,
     inventoryReduce,
   };
