@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useInventory } from "./useInventory";
+import { useStockHistory } from "@/features/stock-history/hooks/useStockHistory";
 
 export const useInventoryTable = () => {
   const { inventory, inventoryRestock, inventoryReduce } = useInventory();
+  const { stockHistory, loading, fetchStockHistory } = useStockHistory();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -17,10 +19,14 @@ export const useInventoryTable = () => {
   }));
 
   // 🔹 Actions
-  const handleAction = (row, type) => {
+  const handleAction = async (row, type) => {
     setSelectedProduct(row);
     setActionType(type);
     setIsModalOpen(true);
+
+    if (type === "history") {
+      await fetchStockHistory(row.id);
+    }
   };
 
   const handleConfirm = async (quantity) => {
@@ -43,5 +49,7 @@ export const useInventoryTable = () => {
     actionType,
     handleAction,
     handleConfirm,
+    stockHistory,
+    loading,
   };
 };

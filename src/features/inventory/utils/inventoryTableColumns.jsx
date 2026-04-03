@@ -52,7 +52,14 @@ const inventoryColumns = (onActions) => [
           >
             Reduce
           </button>
-        </div>
+
+          <button
+            onClick={() => onActions(item, "history")}
+            className="px-3 py-1 text-xs border border-blue-200 text-blue-600 rounded hover:bg-blue-50"
+          >
+            History
+          </button>
+        </div >
       );
     },
   }),

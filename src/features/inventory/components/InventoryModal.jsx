@@ -8,6 +8,8 @@ import {
     AlertCircle,
 } from "lucide-react";
 
+import { AppModal } from "@/features/shared/AppModal";
+
 export default function InventoryModal({
     isModalOpen = true,
     setIsModalOpen = () => { },
@@ -45,13 +47,24 @@ export default function InventoryModal({
     };
 
     return (
-        <Dialog open={isModalOpen} onClose={closeModal} className="relative z-50">
-            {/* Overlay */}
+        <AppModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            title={isRestock ? "Restock Product" : "Reduce Stock"}
+            subtitle="Inventory Management"
+            icon={
+                isRestock ? (
+                    <TrendingUp className="text-blue-600" size={16} />
+                ) : (
+                    <TrendingDown className="text-red-500" size={16} />
+                )
+            }
+        >
             <div className="fixed inset-0 bg-black/40" />
 
             {/* Center */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <DialogPanel className="w-full max-w-md rounded-2xl shadow-xl overflow-hidden bg-white border border-gray-200">
+                <div className="w-full max-w-md rounded-2xl shadow-xl overflow-hidden bg-white border border-gray-200">
 
                     {/* Header */}
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -68,9 +81,9 @@ export default function InventoryModal({
                             </div>
 
                             <div>
-                                <DialogTitle className="text-sm font-semibold text-gray-800">
+                                <p className="text-sm font-semibold text-gray-800">
                                     {isRestock ? "Restock Product" : "Reduce Stock"}
-                                </DialogTitle>
+                                </p>
                                 <p className="text-xs text-gray-400">
                                     Inventory Management
                                 </p>
@@ -182,8 +195,10 @@ export default function InventoryModal({
                             </button>
                         </div>
                     </div>
-                </DialogPanel>
+                </div>
             </div>
-        </Dialog>
+
+        </AppModal>
+
     );
 }
