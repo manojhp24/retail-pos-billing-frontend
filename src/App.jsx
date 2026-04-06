@@ -12,6 +12,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<MyTable />} />
           <Route path="/inventory" element={<InventoryList />} />
+          <Route path="/billing" element={<BillingPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />
@@ -21,5 +22,6 @@ function App() {
 }
 import MyTable from "./features/product/pages/ProductsList";
 import InventoryList from "./features/inventory/pages/InventoryList";
+import { BillingPage } from "./features/billing/pages/BillingPage";
 
 export default App;
