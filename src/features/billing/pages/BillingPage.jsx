@@ -10,10 +10,9 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { BillPrint } from "../components/BillPrint";
 import { useEffect } from "react";
+import { useBillingPage } from "../hooks/useBillingPage";
 
 export const BillingPage = () => {
-
-
     const {
         billItems,
         total,
@@ -24,32 +23,14 @@ export const BillingPage = () => {
         showModal,
         setShowModal,
         confirmAndPrint,
-        currentBill
+        currentBill,
     } = useBilling();
     const { products, loading } = useProducts();
-    useEffect(() => {
-        if (currentBill) {
-            handlePrint();
-        }
-    }, [currentBill]);
-    console.log("currentBill:", currentBill);
 
-    const [search, setSearch] = useState("");
-
-    const filteredProducts = products.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
+    const { search, setSearch, filteredProducts, componentRef } = useBillingPage(
+        products,
+        currentBill,
     );
-
-    const componentRef = useRef();
-    const handlePrint = useReactToPrint({
-        content: () => {
-            if (!componentRef.current) {
-                console.error("❌ Print ref is null");
-                return;
-            }
-            return componentRef.current;
-        },
-    });
 
     return (
         <>
@@ -57,7 +38,6 @@ export const BillingPage = () => {
             <ToastContainer position="bottom-right" autoClose={3000} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                 {/* LEFT - PRODUCTS */}
                 <div className="bg-white rounded-xl shadow-sm">
                     <div className="flex justify-between items-center border-b p-4">
@@ -98,7 +78,6 @@ export const BillingPage = () => {
 
                 {/* RIGHT - BILL */}
                 <div className="bg-white rounded-xl shadow-sm">
-
                     {/* Header */}
                     <div className="flex justify-between items-center p-4 border-b">
                         <div className="flex items-center gap-2 font-semibold">
@@ -173,7 +152,6 @@ export const BillingPage = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 flex justify-center items-center">
                     <div className="bg-white p-4 rounded-lg w-[300px]">
-
                         <h3 className="text-center font-bold">My Shop</h3>
                         <p className="text-sm">{new Date().toLocaleString()}</p>
 
@@ -181,8 +159,10 @@ export const BillingPage = () => {
 
                         {billItems.map((i) => (
                             <div key={i.id} className="text-sm mb-2">
-                                {i.name}<br />
-                                {i.qty} x ₹{i.sellingPrice} = ₹{(i.sellingPrice || 0) * (i.qty || 0)}
+                                {i.name}
+                                <br />
+                                {i.qty} x ₹{i.sellingPrice} = ₹
+                                {(i.sellingPrice || 0) * (i.qty || 0)}
                             </div>
                         ))}
 
@@ -209,7 +189,6 @@ export const BillingPage = () => {
                                 Close
                             </button>
                         </div>
-
                     </div>
                 </div>
             )}
