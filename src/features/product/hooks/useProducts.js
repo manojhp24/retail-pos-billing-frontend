@@ -6,7 +6,6 @@ import {
   updateProductsApi,
 } from "../services/productApi";
 import { getAllInventory } from "@/features/inventory/services/inventoryApi";
-
 import { handleApiError } from "@/utils/errorHandler";
 import { toast } from "react-toastify";
 
@@ -16,81 +15,69 @@ export const useProducts = () => {
   const [error, setError] = useState(null);
   const hasFetched = useRef(false);
 
-  const mergeProductsWithStock = (products, inventory) => {
-    return products.map((p) => {
+  const mergeWithStock = (products, inventory) =>
+    products.map((p) => {
       const stockItem = inventory.find((i) => i.product.id === p.id);
-      return {
-        ...p,
-        stock: stockItem ? stockItem.stock : 0,
-      };
+      return { ...p, stock: stockItem?.stock || 0 };
     });
-  };
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const [productRes, inventoryRes] = await Promise.all([
+      const [productsRes, inventoryRes] = await Promise.all([
         getAllProducts(),
         getAllInventory(),
       ]);
 
-      const merged = mergeProductsWithStock(productRes.data, inventoryRes.data);
-
-      setProducts(merged);
+      setProducts(mergeWithStock(productsRes.data, inventoryRes.data));
     } catch (err) {
-      const message = handleApiError(err);
-      setError(message);
-      toast.error(message);
+      const msg = handleApiError(err);
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ CRUD
-  const addProduct = async (newProduct) => {
+  const addProduct = async (data) => {
     try {
-      await createProducts(newProduct);
-      toast.success("Product Added");
+      await createProducts(data);
+      toast.success("Product added");
       fetchProducts();
-    } catch (error) {
-      const message = handleApiError(error);
-      toast.error(message);
+    } catch (err) {
+      toast.error(handleApiError(err));
     }
   };
 
   const deleteProduct = async (id) => {
     try {
       await deleteProductApi(id);
-      toast.success("Product Deleted");
+      toast.success("Product deleted");
       fetchProducts();
-    } catch (error) {
-      const message = handleApiError(error);
-      toast.error(message);
+    } catch (err) {
+      toast.error(handleApiError(err));
     }
   };
 
-  const updateProduct = async (updatedProduct) => {
+  const updateProduct = async (data) => {
     try {
-      await updateProductsApi(updatedProduct.id, updatedProduct);
+      await updateProductsApi(data.id, data);
 
       setProducts((prev) =>
-        prev.map((p) =>
-          p.id === updatedProduct.id ? { ...p, ...updatedProduct } : p,
-        ),
+        prev.map((p) => (p.id === data.id ? { ...p, ...data } : p)),
       );
 
-      toast.success("Product Updated");
+      toast.success("Product updated");
     } catch (err) {
-      const message = handleApiError(err);
-      toast.error(message);
+      toast.error(handleApiError(err));
     }
   };
 
+  // 🔹 Initial fetch
   useEffect(() => {
     if (hasFetched.current) return;
-
     hasFetched.current = true;
     fetchProducts();
   }, []);

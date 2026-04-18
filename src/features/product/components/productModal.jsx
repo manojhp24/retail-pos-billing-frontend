@@ -1,4 +1,4 @@
-import { X, PackagePlus, Save } from "lucide-react";
+import { X } from "lucide-react";
 
 const ProductModal = ({
   isOpen,
@@ -11,90 +11,161 @@ const ProductModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-      <div className="bg-white rounded-2xl w-full max-w-md shadow-xl border border-gray-200 overflow-hidden">
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-              <PackagePlus size={16} className="text-blue-600" />
-            </div>
-            <div>
-              <h2 className="text-sm font-semibold text-gray-800">
-                {isEdit ? "Edit Product" : "Add Product"}
-              </h2>
-              <p className="text-xs text-gray-400">
-                {isEdit ? "Update product details" : "Fill in the product details"}
-              </p>
-            </div>
+        <div className="flex items-start justify-between px-6 py-5 border-b">
+          <div>
+            <h2 className="text-base font-semibold text-gray-800">
+              {isEdit ? "Edit Product" : "Add Product"}
+            </h2>
+            <p className="text-sm text-gray-400 mt-0.5">
+              Fill in the product details
+            </p>
           </div>
-          <button
-            onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            <X size={15} />
+
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <X size={18} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="px-5 py-5 space-y-3">
+        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-5">
 
-          <div className="space-y-1">
-            <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Name</label>
+          {/* ===== Basic ===== */}
+          <div className="space-y-4">
             <input
               name="name"
               placeholder="Product name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full border border-gray-200 text-sm text-gray-700 placeholder-gray-400 px-3 py-2.5 rounded-xl outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="input"
             />
-          </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Price</label>
-            <input
-              name="price"
-              type="number"
-              placeholder="0.00"
-              value={formData.price}
-              onChange={handleChange}
-              className="w-full border border-gray-200 text-sm text-gray-700 placeholder-gray-400 px-3 py-2.5 rounded-xl outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
-            />
-          </div>
+            <div className="grid grid-cols-2 gap-3">
+              <input
+                name="sku"
+                placeholder="SKU"
+                value={formData.sku}
+                onChange={handleChange}
+                className="input"
+              />
+              <input
+                name="brand"
+                placeholder="Brand"
+                value={formData.brand}
+                onChange={handleChange}
+                className="input"
+              />
+            </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Category</label>
+            <div className="grid grid-cols-2 gap-3">
+              <input
+                name="unitValue"
+                type="number"
+                placeholder="Unit Value (e.g. 25)"
+                className="input"
+                value={formData.unitValue}
+                onChange={handleChange}
+              />
+
+              <select
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                className="input"
+              >
+                <option value="">Select Unit</option>
+                <option value="pcs">Pieces (pcs)</option>
+                <option value="kg">Kilogram (kg)</option>
+                <option value="g">Gram (g)</option>
+                <option value="ltr">Liter (ltr)</option>
+                <option value="ml">Milliliter (ml)</option>
+                <option value="box">Box</option>
+                <option value="pack">Pack</option>
+              </select>
+            </div>
+
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2.5 rounded-xl outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all bg-white"
+              className="input"
             >
               <option value="">Select Category</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Books">Books</option>
+              <option>Electronics</option>
+              <option>Fashion</option>
+              <option>Books</option>
             </select>
           </div>
 
-          {/* Actions */}
-          <div className="flex justify-end gap-2 pt-2">
+          {/* ===== Pricing ===== */}
+          <div className="grid grid-cols-3 gap-3">
+            <input
+              name="costPrice"
+              type="number"
+              placeholder="Cost"
+              value={formData.costPrice}
+              onChange={handleChange}
+              className="input"
+            />
+            <input
+              name="sellingPrice"
+              type="number"
+              placeholder="Selling"
+              value={formData.sellingPrice}
+              onChange={handleChange}
+              className="input"
+            />
+            <input
+              name="taxPercent"
+              type="number"
+              placeholder="Tax %"
+              value={formData.taxPercent}
+              onChange={handleChange}
+              className="input"
+            />
+          </div>
+
+          {/* ===== Additional ===== */}
+          <div className="space-y-3">
+            <input
+              name="barcode"
+              placeholder="Barcode"
+              value={formData.barcode}
+              onChange={handleChange}
+              className="input"
+            />
+
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={2}
+              className="input resize-none"
+            />
+          </div>
+
+          {/* Footer */}
+          <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm rounded-lg border text-gray-600 hover:bg-gray-50"
             >
               Cancel
             </button>
+
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+              className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700"
             >
-              <Save size={14} />
               {isEdit ? "Update" : "Add"}
             </button>
           </div>
+
         </form>
       </div>
     </div>

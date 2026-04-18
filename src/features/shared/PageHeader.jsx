@@ -1,10 +1,24 @@
 const pageHeader = ({ title, description }) => {
     return <>
-        <div className="px-5 py-4 bg-white border border-gray-200 rounded-xl mb-6 shadow-sm flex items-center justify-between">
+        <div className="px-6 py-5 bg-white border border-gray-200 rounded-2xl mb-6 shadow-sm flex items-center justify-between">
+
+            {/* Title Section */}
             <div>
-                <h2 className="text-xl font-semibold text-gray-800 tracking-tight">{title}</h2>
-                <p className="text-xs text-gray-400 mt-0.5">{description}</p>
+                <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+                    {title}
+                </h2>
+
+                {description && (
+                    <p className="text-sm text-gray-600 mt-1">
+                        {description}
+                    </p>
+                )}
             </div>
+
+            <div className="flex items-center gap-2">
+                {/* buttons can go here */}
+            </div>
+
         </div>
     </>
 }

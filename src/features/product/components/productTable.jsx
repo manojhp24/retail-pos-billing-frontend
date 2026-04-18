@@ -16,12 +16,15 @@ import {
   CalendarDays,
   PackageX,
   ArrowUpDown,
+  Eye
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
 const ProductTable = ({ products, onEdit, onDelete, onAdd, loading }) => {
+  const navigate = useNavigate();
   const [sorting, setSorting] = useState();
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
@@ -52,13 +55,13 @@ const ProductTable = ({ products, onEdit, onDelete, onAdd, loading }) => {
       ),
     }),
 
-    columnHelper.accessor("price", {
+    columnHelper.accessor("sellingPrice", {
       header: ({ column }) => (
         <div
           onClick={column.getToggleSortingHandler()}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <IndianRupee size={14} /> Price
+          <IndianRupee size={14} /> Selling Price
         </div>
       ),
       cell: (info) => (
@@ -94,6 +97,21 @@ const ProductTable = ({ products, onEdit, onDelete, onAdd, loading }) => {
         </div>
       ),
     }),
+    columnHelper.display({
+      id: "profit",
+      header: "Profit",
+      cell: ({ row }) => {
+        const cost = row.original.costPrice || 0;
+        const sell = row.original.sellingPrice || 0;
+        const profit = sell - cost;
+
+        return (
+          <span className="text-blue-600 font-medium">
+            ₹{profit}
+          </span>
+        );
+      },
+    }),
 
     columnHelper.display({
       id: "actions",
@@ -102,7 +120,7 @@ const ProductTable = ({ products, onEdit, onDelete, onAdd, loading }) => {
         <div className="flex justify-end gap-2">
           <button
             onClick={() => onEdit(row.original)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-green-200 text-green-600 hover:bg-green-50 transition-colors"
           >
             <Pencil size={13} />
             Edit
@@ -113,6 +131,13 @@ const ProductTable = ({ products, onEdit, onDelete, onAdd, loading }) => {
           >
             <Trash2 size={13} />
             Delete
+          </button>
+          <button
+            onClick={() => navigate(`/products/${row.original.id}`)}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-blue-200 text-blue-500 hover:bg-blue-50 transition-colors"
+          >
+            <Eye size={13} />
+            View
           </button>
         </div>
       ),

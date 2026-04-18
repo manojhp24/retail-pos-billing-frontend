@@ -3,6 +3,7 @@ import MainLayout from "./features/shared/layout/MainLayout";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Dashboard from "./features/dashboard/pages/Dashboard";
+import { ProductDetailsPage } from "./features/product/pages/ProductDetails";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/products" element={<MyTable />} />
           <Route path="/inventory" element={<InventoryList />} />
           <Route path="/billing" element={<BillingPage />} />
+          <Route path="/products/:id" element={<ProductDetailsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />
