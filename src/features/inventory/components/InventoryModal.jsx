@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Dialog, DialogTitle, DialogPanel } from "@headlessui/react";
 import {
     X,
     Package,
@@ -9,6 +7,7 @@ import {
 } from "lucide-react";
 
 import { AppModal } from "@/features/shared/AppModal";
+import { useInventoryModal } from "../hooks/useInventoryModal";
 
 export default function InventoryModal({
     isModalOpen = true,
@@ -17,34 +16,20 @@ export default function InventoryModal({
     selectedProduct = { product: "Ghurkha Pants", stock: 0 },
     onConfirm = () => { },
 }) {
-    const [quantity, setQuantity] = useState("");
-
-    const isRestock = actionType === "restock";
-
-    // 🔹 Convert quantity once
-    const quantityNumber = Number(quantity);
-
-    // 🔹 Calculate new stock
-    const newStock = quantity
-        ? isRestock
-            ? selectedProduct.stock + quantityNumber
-            : selectedProduct.stock - quantityNumber
-        : null;
-
-    // 🔹 Validation
-    const isReduceError =
-        !isRestock && quantity && quantityNumber > selectedProduct.stock;
-
-    // 🔹 Close modal
-    const closeModal = () => setIsModalOpen(false);
-
-    // 🔹 Confirm action
-    const handleConfirm = () => {
-        if (!quantity || isReduceError) return;
-
-        onConfirm(quantityNumber);
-        closeModal();
-    };
+    const {
+        quantity,
+        setQuantity,
+        isRestock,
+        newStock,
+        isReduceError,
+        handleConfirm,
+        closeModal,
+    } = useInventoryModal({
+        actionType,
+        selectedProduct,
+        setIsModalOpen,
+        onConfirm,
+    });
 
     return (
         <AppModal
@@ -62,7 +47,6 @@ export default function InventoryModal({
         >
             <div className="fixed inset-0 bg-black/40" />
 
-            {/* Center */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 <div className="w-full max-w-md rounded-2xl shadow-xl overflow-hidden bg-white border border-gray-200">
 
@@ -92,7 +76,7 @@ export default function InventoryModal({
 
                         <button
                             onClick={closeModal}
-                            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100"
                         >
                             <X size={15} />
                         </button>
@@ -127,9 +111,9 @@ export default function InventoryModal({
                             </div>
                         </div>
 
-                        {/* Quantity Input */}
+                        {/* Quantity */}
                         <div className="mb-5">
-                            <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">
+                            <label className="block text-xs font-medium text-gray-500 mb-1.5">
                                 Quantity
                             </label>
 
@@ -139,17 +123,16 @@ export default function InventoryModal({
                                 value={quantity}
                                 onChange={(e) => setQuantity(e.target.value)}
                                 placeholder="Enter amount..."
-                                className={`w-full rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 bg-white outline-none border transition-all ${isReduceError
-                                    ? "border-red-300 focus:ring-2 focus:ring-red-100"
-                                    : "border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                                className={`w-full rounded-xl px-4 py-2.5 text-sm border ${isReduceError
+                                    ? "border-red-300"
+                                    : "border-gray-200"
                                     }`}
                             />
 
                             {isReduceError && (
                                 <div className="flex items-center gap-1.5 mt-2 text-xs text-red-500">
                                     <AlertCircle size={12} />
-                                    Cannot reduce below zero. Max reducible:{" "}
-                                    {selectedProduct.stock}
+                                    Cannot reduce below zero. Max: {selectedProduct.stock}
                                 </div>
                             )}
                         </div>
@@ -157,7 +140,7 @@ export default function InventoryModal({
                         {/* Preview */}
                         {quantity && !isReduceError && (
                             <div
-                                className={`flex items-center justify-between px-4 py-2.5 rounded-xl mb-5 border ${isRestock
+                                className={`flex justify-between px-4 py-2.5 rounded-xl mb-5 border ${isRestock
                                     ? "bg-emerald-50 border-emerald-200"
                                     : "bg-red-50 border-red-200"
                                     }`}
@@ -165,10 +148,7 @@ export default function InventoryModal({
                                 <span className="text-sm text-gray-500">
                                     Stock after update
                                 </span>
-                                <span
-                                    className={`font-bold text-base ${isRestock ? "text-emerald-600" : "text-red-500"
-                                        }`}
-                                >
+                                <span className="font-bold">
                                     {newStock}
                                 </span>
                             </div>
@@ -178,7 +158,7 @@ export default function InventoryModal({
                         <div className="flex gap-2">
                             <button
                                 onClick={closeModal}
-                                className="flex-1 py-2.5 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
+                                className="flex-1 py-2.5 rounded-xl text-sm border border-gray-200"
                             >
                                 Cancel
                             </button>
@@ -186,9 +166,9 @@ export default function InventoryModal({
                             <button
                                 onClick={handleConfirm}
                                 disabled={!quantity || isReduceError}
-                                className={`flex-1 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${isRestock
-                                    ? "bg-blue-600 hover:bg-blue-700"
-                                    : "bg-red-500 hover:bg-red-600"
+                                className={`flex-1 py-2.5 rounded-xl text-sm font-semibold text-white ${isRestock
+                                    ? "bg-blue-600"
+                                    : "bg-red-500"
                                     }`}
                             >
                                 {isRestock ? "Add Stock" : "Reduce Stock"}
@@ -197,8 +177,6 @@ export default function InventoryModal({
                     </div>
                 </div>
             </div>
-
         </AppModal>
-
     );
 }
