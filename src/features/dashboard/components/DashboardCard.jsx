@@ -1,12 +1,12 @@
 const KpiCard = ({ icon: Icon, label, value, bg, color }) => {
   return (
-    <div className="bg-white p-5 rounded-xl shadow flex gap-4 items-center">
-      <div className={`${bg} p-3 rounded-lg `}>
-        <Icon className={`${color}`} size={20} />
+    <div className="bg-white p-4 rounded border border-gray-300 flex gap-4 items-center">
+      <div className={`${bg} p-2.5 rounded border border-gray-200`}>
+        <Icon className={`${color}`} size={18} />
       </div>
-      <div className="">
-        <p className="text-gray-500 text-sm">{label}</p>
-        <p className="text-2xl font-semibold text-gray-800">₹{value}</p>
+      <div>
+        <p className="text-gray-500 text-xs uppercase tracking-wide font-medium">{label}</p>
+        <p className="text-xl font-semibold text-gray-800 mt-0.5">₹{value}</p>
       </div>
     </div>
   );

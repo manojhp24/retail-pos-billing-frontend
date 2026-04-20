@@ -1,5 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { Hash, Tag, Box, Clock } from "lucide-react";
+import { formatDateTime } from "@/utils/formatDateTime";
 
 const columnHelper = createColumnHelper();
 
@@ -29,6 +30,7 @@ const inventoryColumns = (onActions) => [
 
   columnHelper.accessor("lastUpdated", {
     header: ({ column }) => SortableHeader(column, Clock, "Last Updated"),
+    cell: ({ getValue }) => formatDateTime(getValue()),
   }),
 
   columnHelper.display({

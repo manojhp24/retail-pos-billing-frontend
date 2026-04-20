@@ -6,7 +6,6 @@ import { handleApiError } from "@/utils/errorHandler";
 export const useBilling = () => {
   const [billItems, setBillItems] = useState([]);
   const [loading, setLoading] = useState(null);
-  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
 
@@ -16,7 +15,7 @@ export const useBilling = () => {
       return;
     }
 
-    setShowModal(true); // ✅ only open modal
+    setShowModal(true);
   };
 
   const confirmAndPrint = async () => {

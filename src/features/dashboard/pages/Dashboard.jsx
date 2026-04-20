@@ -7,22 +7,22 @@ const cardDetails = [
     label: "Total Revenue",
     value: "1600",
     icon: BadgeIndianRupee,
-    bg: "bg-green-50",
-    color: "text-green-500",
+    bg: "bg-white",
+    color: "text-gray-700",
   },
   {
     label: "Products",
     value: "10",
     icon: Package,
-    bg: "bg-blue-50",
-    color: "text-blue-500",
+    bg: "bg-white",
+    color: "text-gray-700",
   },
   {
     label: "Total Sales",
     value: "5",
     icon: TrendingUp,
-    bg: "bg-yellow-50",
-    color: "text-yellow-500",
+    bg: "bg-white",
+    color: "text-gray-700",
   },
 ];
 
@@ -30,8 +30,8 @@ const quickActions = [
   {
     label: "New Bill",
     icon: Plus,
-    bg: "bg-blue-600",
-    hover: "hover:bg-blue-700",
+    bg: "bg-blue-700",
+    hover: "hover:bg-blue-800",
     text: "text-white",
     onClick: () => { },
   },
@@ -39,9 +39,9 @@ const quickActions = [
     label: "View Reports",
     icon: FileText,
     bg: "bg-white",
-    hover: "hover:bg-gray-50",
+    hover: "hover:bg-gray-100",
     text: "text-gray-700",
-    border: "border border-gray-200",
+    border: "border border-gray-300",
     onClick: () => { },
   },
 ];
@@ -59,25 +59,25 @@ const Dashboard = () => {
       <PageHeader title="Dashboard" description="Welcome back, Admin" />
 
       {/* Quick Action CTAs */}
-      <div className="flex items-center gap-3 mt-5">
+      <div className="flex items-center gap-2 mt-5">
         {quickActions.map((action) => (
           <button
             key={action.label}
             onClick={action.onClick}
             className={`
-              flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium
-              transition-all duration-200 cursor-pointer shadow-sm
+              flex items-center gap-2 px-4 py-2 rounded text-sm font-medium
+              transition-colors duration-150 cursor-pointer
               ${action.bg} ${action.hover} ${action.text} ${action.border ?? ""}
             `}
           >
-            <action.icon size={16} />
+            <action.icon size={15} />
             {action.label}
           </button>
         ))}
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-3 gap-5 mt-5">
+      <div className="grid grid-cols-3 gap-4 mt-5">
         {cardDetails.map((card) => (
           <KpiCard
             key={card.label}
@@ -91,20 +91,28 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Transactions */}
-      <div className="mt-7 bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+      <div className="mt-6 bg-white border border-gray-300 rounded overflow-hidden">
 
         {/* Header */}
-        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-800 tracking-tight">
+        <div className="px-5 py-3 border-b border-gray-300 bg-gray-50 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-gray-800">
             Recent Transactions
           </h3>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-gray-400">Today</span>
-            <button className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer">
+            <span className="text-xs text-gray-500">Today</span>
+            <button className="flex items-center gap-1 text-xs font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer">
               View all
               <ArrowRight size={13} />
             </button>
           </div>
+        </div>
+
+        {/* Table Head */}
+        <div className="px-5 py-2 grid grid-cols-4 bg-gray-50 border-b border-gray-200">
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Bill ID</span>
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Items</span>
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Date & Time</span>
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide text-right">Amount</span>
         </div>
 
         {/* List */}
@@ -112,31 +120,17 @@ const Dashboard = () => {
           {recentTransactions.map((tx) => (
             <div
               key={tx.id}
-              className="px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-all duration-150"
+              className="px-5 py-3 grid grid-cols-4 items-center hover:bg-gray-50 transition-colors duration-100"
             >
-              <div className="flex items-center gap-3">
+              <p className="text-sm font-medium text-gray-800">{tx.id}</p>
+              <p className="text-sm text-gray-600">{tx.items} item{tx.items > 1 ? "s" : ""}</p>
+              <p className="text-sm text-gray-500">{tx.date}</p>
 
-                {/* Icon */}
-                <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <TrendingUp size={15} className="text-blue-500" />
-                </div>
-
-                {/* Info */}
-                <div>
-                  <p className="text-sm font-medium text-gray-800">{tx.id}</p>
-                  <p className="text-xs text-gray-400">
-                    {tx.items} item{tx.items > 1 ? "s" : ""} · {tx.date}
-                  </p>
-                </div>
-              </div>
-
-              {/* Right */}
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-emerald-600">
+              <div className="flex items-center justify-end gap-3">
+                <span className="text-sm font-semibold text-gray-800">
                   {tx.amount}
                 </span>
-
-                <button className="flex items-center gap-1 text-xs text-gray-500 hover:text-blue-600 border border-gray-200 hover:border-blue-300 rounded-lg px-2.5 py-1.5 transition-all cursor-pointer">
+                <button className="flex items-center gap-1 text-xs text-gray-600 hover:text-blue-700 border border-gray-300 hover:border-blue-400 rounded px-2.5 py-1 transition-colors cursor-pointer">
                   <FileText size={12} />
                   Print
                 </button>
@@ -146,8 +140,8 @@ const Dashboard = () => {
         </div>
 
         {/* Footer CTA */}
-        <div className="px-5 py-3.5 border-t border-gray-100 bg-gray-50">
-          <button className="w-full text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+        <div className="px-5 py-3 border-t border-gray-300 bg-gray-50">
+          <button className="w-full text-xs font-medium text-gray-500 hover:text-blue-700 transition-colors flex items-center justify-center gap-1 cursor-pointer">
             View all transactions
             <ArrowRight size={13} />
           </button>

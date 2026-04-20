@@ -1,15 +1,13 @@
 import { useProducts } from "../hooks/useProducts";
 import { useProductFilters } from "../hooks/useProductFilter";
 import { useProductForm } from "../hooks/useFormProduct";
-
 import ProductTable from "../components/productTable";
 import ProductModal from "../components/productModal";
 import { ToastContainer } from "react-toastify";
 import PageHeader from "@/features/shared/PageHeader";
 
 const ProductsList = () => {
-  const { products, addProduct, deleteProduct, updateProduct, loading } =
-    useProducts();
+  const { products, addProduct, deleteProduct, updateProduct, loading } = useProducts();
 
   const {
     filteredProducts,
@@ -19,7 +17,6 @@ const ProductsList = () => {
     setSelectedCategory,
   } = useProductFilters(products);
 
-  // 🔹 Form logic hook
   const {
     formData,
     handleChange,
@@ -36,21 +33,22 @@ const ProductsList = () => {
       <ToastContainer position="bottom-right" autoClose={3000} />
       <PageHeader title="Products" description="Manage your products" />
 
-      <div className="w-full bg-white shadow-md rounded-xl p-6">
+      <div className="bg-white border border-gray-300 rounded p-5">
+
         {/* Category Filter */}
         <div className="flex flex-wrap gap-2 mb-4">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm border
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-sm border transition-colors
                 ${selectedCategory === cat
-                  ? "bg-violet-100 border-violet-300 text-violet-800"
-                  : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
+                  ? "bg-gray-800 border-gray-800 text-white"
+                  : "bg-white border-gray-300 text-gray-600 hover:bg-gray-50"
                 }`}
             >
               {cat}
-              <span className="text-xs px-1.5 py-0.5 rounded-full bg-gray-100">
+              <span className="text-xs px-1.5 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-600">
                 {categoryCounts[cat] ?? 0}
               </span>
             </button>

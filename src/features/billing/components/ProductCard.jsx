@@ -6,7 +6,7 @@ export const ProductCard = ({ name, price, stock, onClick }) => {
     return (
         <div
             onClick={!isOutOfStock ? onClick : undefined}
-            className={`h-full border rounded-2xl p-4 bg-white 
+            className={`h-full border p-4 bg-white 
         transition-all duration-200 group
         hover:shadow-lg hover:-translate-y-1 hover:border-blue-300
         ${isOutOfStock ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}

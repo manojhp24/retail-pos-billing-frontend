@@ -1,40 +1,49 @@
 import { X } from "lucide-react";
 
-const ProductModal = ({
-  isOpen,
-  onClose,
-  formData,
-  handleChange,
-  handleSubmit,
-  isEdit,
-}) => {
+const categories = [
+  "Rice & Grains",
+  "Pulses & Dal",
+  "Flour & Atta",
+  "Oil & Ghee",
+  "Spices & Masala",
+  "Sugar & Salt",
+  "Dairy Products",
+  "Snacks & Namkeen",
+  "Beverages",
+  "Biscuits & Bakery",
+  "Frozen Foods",
+  "Dry Fruits & Nuts",
+  "Cleaning Supplies",
+  "Personal Care",
+];
+
+const ProductModal = ({ isOpen, onClose, formData, handleChange, handleSubmit, isEdit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      <div className="bg-white w-full max-w-md rounded border border-gray-300 overflow-hidden">
 
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 border-b">
+        <div className="flex items-start justify-between px-5 py-4 border-b border-gray-300 bg-gray-50">
           <div>
-            <h2 className="text-base font-semibold text-gray-800">
+            <h2 className="text-sm font-semibold text-gray-800">
               {isEdit ? "Edit Product" : "Add Product"}
             </h2>
-            <p className="text-sm text-gray-400 mt-0.5">
+            <p className="text-xs text-gray-500 mt-0.5">
               Fill in the product details
             </p>
           </div>
-
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <X size={18} />
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors">
+            <X size={17} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-5">
+        <form onSubmit={handleSubmit} className="px-5 py-4 space-y-4">
 
-          {/* ===== Basic ===== */}
-          <div className="space-y-4">
+          {/* Basic */}
+          <div className="space-y-3">
             <input
               name="name"
               placeholder="Product name"
@@ -42,7 +51,6 @@ const ProductModal = ({
               onChange={handleChange}
               className="input"
             />
-
             <div className="grid grid-cols-2 gap-3">
               <input
                 name="sku"
@@ -59,48 +67,39 @@ const ProductModal = ({
                 className="input"
               />
             </div>
-
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <input
                 name="unitValue"
                 type="number"
-                placeholder="Unit Value (e.g. 25)"
-                className="input"
+                placeholder="Value (e.g. 25)"
                 value={formData.unitValue}
                 onChange={handleChange}
-              />
-
-              <select
-                name="unit"
-                value={formData.unit}
-                onChange={handleChange}
                 className="input"
-              >
-                <option value="">Select Unit</option>
-                <option value="pcs">Pieces (pcs)</option>
-                <option value="kg">Kilogram (kg)</option>
-                <option value="g">Gram (g)</option>
-                <option value="ltr">Liter (ltr)</option>
-                <option value="ml">Milliliter (ml)</option>
+              />
+              <select name="unit" value={formData.unit} onChange={handleChange} className="input">
+                <option value="">Unit</option>
+                <option value="bag">Bag</option>
                 <option value="box">Box</option>
                 <option value="pack">Pack</option>
+                <option value="pcs">Pieces</option>
+              </select>
+              <select name="baseUnit" value={formData.baseUnit} onChange={handleChange} className="input">
+                <option value="">Base</option>
+                <option value="kg">Kg</option>
+                <option value="g">Gram</option>
+                <option value="ltr">Liter</option>
+                <option value="ml">ML</option>
               </select>
             </div>
-
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="input"
-            >
+            <select name="category" value={formData.category} onChange={handleChange} className="input">
               <option value="">Select Category</option>
-              <option>Electronics</option>
-              <option>Fashion</option>
-              <option>Books</option>
+              {categories.map((cate) => (
+                <option key={cate} value={cate}>{cate}</option>
+              ))}
             </select>
           </div>
 
-          {/* ===== Pricing ===== */}
+          {/* Pricing */}
           <div className="grid grid-cols-3 gap-3">
             <input
               name="costPrice"
@@ -128,7 +127,7 @@ const ProductModal = ({
             />
           </div>
 
-          {/* ===== Additional ===== */}
+          {/* Additional */}
           <div className="space-y-3">
             <input
               name="barcode"
@@ -137,7 +136,6 @@ const ProductModal = ({
               onChange={handleChange}
               className="input"
             />
-
             <textarea
               name="description"
               placeholder="Description"
@@ -149,23 +147,21 @@ const ProductModal = ({
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm rounded-lg border text-gray-600 hover:bg-gray-50"
+              className="px-4 py-2 text-sm rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
             >
               Cancel
             </button>
-
             <button
               type="submit"
-              className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+              className="px-4 py-2 text-sm rounded bg-blue-700 text-white hover:bg-blue-800 transition-colors"
             >
               {isEdit ? "Update" : "Add"}
             </button>
           </div>
-
         </form>
       </div>
     </div>

@@ -9,8 +9,8 @@ const defaultForm = {
   sellingPrice: "",
   taxPercent: "",
   unitValue: "",
-  unit: "pcs",
-  baseUnit: "pcs",
+  unit: "",
+  baseUnit: "",
   barcode: "",
   description: "",
 };
