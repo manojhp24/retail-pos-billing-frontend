@@ -15,20 +15,23 @@ export const useBillingPage = (products, currentBill) => {
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    contentRef: componentRef,
   });
 
-  // 🔹 Auto print after bill created
   useEffect(() => {
-    if (currentBill) {
-      handlePrint();
+    if (currentBill && componentRef.current) {
+      const timer = setTimeout(() => {
+        handlePrint();
+      }, 500);
+
+      return () => clearTimeout(timer);
     }
   }, [currentBill]);
-
   return {
     search,
     setSearch,
     filteredProducts,
     componentRef,
+    handlePrint,
   };
 };

@@ -22,7 +22,7 @@ export const BillingPage = () => {
     } = useBilling();
 
     const { products, loading } = useProducts();
-    const { search, setSearch, filteredProducts, componentRef } = useBillingPage(products, currentBill);
+    const { search, setSearch, filteredProducts, componentRef, handlePrint } = useBillingPage(products, currentBill);
 
     return (
         <>

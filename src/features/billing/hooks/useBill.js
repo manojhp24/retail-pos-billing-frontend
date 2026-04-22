@@ -33,13 +33,36 @@ export const useBilling = () => {
       const res = await createBillApi(billData);
 
       toast.success("Bill saved");
+      const formattedBill = {
+        ...res.data,
+        items: billItems.map((item) => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.qty,
+          price: item.sellingPrice,
+        })),
+        total: billItems.reduce(
+          (sum, item) => sum + item.sellingPrice * item.qty,
+          0,
+        ),
+      };
 
-      setCurrentBill(res.data);
-      setShowModal(false);
-      setBillItems([]);
-      return res.data;
+      setCurrentBill(formattedBill);
+
+      setTimeout(() => {
+        setShowModal(false);
+        setBillItems([]);
+      }, 800);
+
+      return formattedBill;
     } catch (error) {
-      toast.error("Failed");
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.Message ||
+        error.response?.data?.error ||
+        "Something went wrong";
+
+      toast.error(message);
     } finally {
       setLoading(false);
     }
