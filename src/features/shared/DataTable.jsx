@@ -7,7 +7,7 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Database, SearchX } from "lucide-react";
 
 const DataTable = ({
   data = [],
@@ -108,7 +108,22 @@ const DataTable = ({
                         key={cell.id}
                         className={`px-5 py-3 text-sm text-gray-700 ${isAction ? "text-right" : "text-left"}`}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {(() => {
+                          const isDisplay = cell.column.columnDef.cell;
+
+                          if (!cell.column.columnDef.accessorKey) {
+
+                            return flexRender(cell.column.columnDef.cell, cell.getContext());
+                          }
+
+                          const value = cell.getValue();
+
+                          if (value === null || value === undefined || value === "") {
+                            return "N/A";
+                          }
+
+                          return flexRender(cell.column.columnDef.cell, cell.getContext());
+                        })()}
                       </td>
                     );
                   })}
@@ -138,11 +153,34 @@ const TableLoader = ({ colSpan }) => (
   </tr>
 );
 
+
 const TableEmpty = ({ colSpan, isEmpty }) => (
   <tr>
     <td colSpan={colSpan}>
-      <div className="flex justify-center py-14 text-gray-400 text-sm">
-        {isEmpty ? "No data available" : "No results found"}
+      <div className="flex flex-col items-center justify-center py-14 text-gray-400">
+
+        {isEmpty ? (
+          <>
+            <Database size={28} className="mb-2 text-gray-300" />
+            <p className="text-sm font-medium text-gray-500">
+              No data available
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              Add new records to get started
+            </p>
+          </>
+        ) : (
+          <>
+            <SearchX size={28} className="mb-2 text-gray-300" />
+            <p className="text-sm font-medium text-gray-500">
+              No results found
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              Try adjusting your search
+            </p>
+          </>
+        )}
+
       </div>
     </td>
   </tr>

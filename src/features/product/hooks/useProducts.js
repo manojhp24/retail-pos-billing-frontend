@@ -75,7 +75,6 @@ export const useProducts = () => {
     }
   };
 
-  // 🔹 Initial fetch
   useEffect(() => {
     if (hasFetched.current) return;
     hasFetched.current = true;

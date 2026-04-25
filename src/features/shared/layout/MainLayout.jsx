@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Home, Package, ShoppingCart, Users, Menu, Archive } from "lucide-react";
+import { Home, Package, ShoppingCart, Users, Menu, Archive, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 const MainLayout = () => {
@@ -11,7 +11,8 @@ const MainLayout = () => {
     { name: "Products", path: "/products", icon: Package },
     { name: "Inventory", path: "/inventory", icon: Archive },
     { name: "Billing", path: "/billing", icon: ShoppingCart },
-    // { name: "Users", path: "/users", icon: Users },
+    { name: "Customers", path: "/customer", icon: Users },
+    { name: "Sales", path: "/Sales", icon: TrendingUp },
   ];
 
   return (
@@ -52,7 +53,7 @@ const MainLayout = () => {
         <nav className={`flex flex-col gap-0.5 px-2 ${!isOpen ? "pt-4" : ""}`}>
           {menu.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname.startsWith(item.path);
 
             return (
               <Link

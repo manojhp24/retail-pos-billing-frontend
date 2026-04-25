@@ -62,7 +62,6 @@ export const useBilling = () => {
       };
 
       setCurrentBill(formattedBill);
-      console.log(formattedBill);
 
       setTimeout(() => {
         setShowModal(false);
