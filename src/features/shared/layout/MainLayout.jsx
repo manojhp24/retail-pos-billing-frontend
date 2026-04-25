@@ -11,7 +11,7 @@ const MainLayout = () => {
     { name: "Products", path: "/products", icon: Package },
     { name: "Inventory", path: "/inventory", icon: Archive },
     { name: "Billing", path: "/billing", icon: ShoppingCart },
-    { name: "Users", path: "/users", icon: Users },
+    // { name: "Users", path: "/users", icon: Users },
   ];
 
   return (

@@ -19,6 +19,12 @@ export const BillPrint = forwardRef(({ bill }, ref) => {
                 <div className="mt-4 border-t border-dashed border-gray-300" />
             </div>
 
+            <div className="px-1 mb-3 text-sm text-gray-700">
+                <p><span className="font-medium">Bill No:</span> {bill.id}</p>
+                <p><span className="font-medium">Customer:</span> {bill.customer?.name}</p>
+                <p><span className="font-medium">Phone:</span> {bill.customer?.phoneNumber}</p>
+            </div>
+
             {/* Column Headers */}
             <div className="flex justify-between text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2 px-1">
                 <span className="w-1/2">Item</span>
@@ -27,6 +33,7 @@ export const BillPrint = forwardRef(({ bill }, ref) => {
             </div>
 
             <div className="border-t border-dashed border-gray-200 mb-3" />
+
 
             {/* Items */}
             <div className="space-y-2">
@@ -37,6 +44,7 @@ export const BillPrint = forwardRef(({ bill }, ref) => {
                         <span className="w-1/4 text-right text-gray-800 font-medium">
                             ₹{(item.quantity * item.price).toFixed(2)}
                         </span>
+                        <span>{item.customerName}</span>
                     </div>
                 ))}
             </div>

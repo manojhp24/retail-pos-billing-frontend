@@ -4,14 +4,12 @@ import { useReactToPrint } from "react-to-print";
 export const useBillingPage = (products, currentBill) => {
   const [search, setSearch] = useState("");
 
-  // 🔹 Filter logic
   const filteredProducts = useMemo(() => {
     return products.filter((item) =>
       item.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [products, search]);
 
-  // 🔹 Print logic
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({

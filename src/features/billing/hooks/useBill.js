@@ -8,10 +8,19 @@ export const useBilling = () => {
   const [loading, setLoading] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [currentBill, setCurrentBill] = useState(null);
+  const [customer, setCustomer] = useState({
+    name: "",
+    phoneNumber: "",
+  });
 
   const generateBill = () => {
     if (billItems.length === 0) {
       toast.error("Cart is empty");
+      return;
+    }
+
+    if (!customer.name) {
+      toast.error("Customer name required");
       return;
     }
 
@@ -23,6 +32,8 @@ export const useBilling = () => {
       setLoading(true);
 
       const billData = {
+        customerName: customer.name,
+        customerPhone: customer.phoneNumber,
         items: billItems.map((item) => ({
           productId: item.id,
           quantity: item.qty,
@@ -30,11 +41,14 @@ export const useBilling = () => {
         discount: 0,
       };
 
+      console.log(billData);
+
       const res = await createBillApi(billData);
 
       toast.success("Bill saved");
       const formattedBill = {
         ...res.data,
+        customer,
         items: billItems.map((item) => ({
           id: item.id,
           name: item.name,
@@ -48,6 +62,7 @@ export const useBilling = () => {
       };
 
       setCurrentBill(formattedBill);
+      console.log(formattedBill);
 
       setTimeout(() => {
         setShowModal(false);
@@ -109,11 +124,11 @@ export const useBilling = () => {
     decreaseQty,
     total,
     generateBill,
-
     showModal,
     setShowModal,
     currentBill,
-
     confirmAndPrint,
+    customer,
+    setCustomer,
   };
 };

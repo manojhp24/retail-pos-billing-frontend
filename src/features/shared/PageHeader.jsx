@@ -1,4 +1,4 @@
-const PageHeader = ({ title, description }) => {
+const PageHeader = ({ title, description, children }) => {
     return <>
         <div className="px-5 py-4 bg-white border border-gray-300 rounded mb-5 flex items-center justify-between">
 
@@ -16,7 +16,7 @@ const PageHeader = ({ title, description }) => {
             </div>
 
             <div className="flex items-center gap-2">
-                {/* buttons can go here */}
+                {children}
             </div>
 
         </div>

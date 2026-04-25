@@ -19,21 +19,67 @@ export const BillingPage = () => {
         setShowModal,
         confirmAndPrint,
         currentBill,
+        customer,
+        setCustomer
     } = useBilling();
 
     const { products, loading } = useProducts();
-    const { search, setSearch, filteredProducts, componentRef, handlePrint } = useBillingPage(products, currentBill);
+    const { search, setSearch, filteredProducts, componentRef, handlePrint } =
+        useBillingPage(products, currentBill);
 
     return (
         <>
             <PageHeader title="Billing" description="Manage your billing here" />
             <ToastContainer position="bottom-right" autoClose={3000} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="px-5 py-4 bg-white border border-gray-200 rounded-lg mb-5">
 
+                {/* Header */}
+                <div className="text-xl font-semibold text-gray-700 mb-4">
+                    Customer Details
+                </div>
+
+                {/* Form */}
+                <div className="grid grid-cols-2 gap-4">
+
+                    {/* Name */}
+                    <div className="flex flex-col">
+                        <label className="text-xs text-gray-500 mb-1">
+                            Customer Name
+                        </label>
+                        <input
+                            value={customer.name}
+                            type="text"
+                            placeholder="Enter name"
+                            className="px-3 py-2 border border-gray-300  text-sm outline-none focus:border-gray-400"
+                            onChange={(e) => {
+                                setCustomer({ ...customer, name: e.target.value })
+                            }}
+                        />
+                    </div>
+
+                    {/* Phone */}
+                    <div className="flex flex-col">
+                        <label className="text-xs text-gray-500 mb-1">
+                            Phone Number
+                        </label>
+                        <input
+                            value={customer.phoneNumber}
+                            type="number"
+                            placeholder="Enter phone"
+                            className="px-3 py-2 border border-gray-300 text-sm outline-none focus:border-gray-400"
+                            onChange={(e) => {
+                                setCustomer({ ...customer, phoneNumber: e.target.value })
+                            }}
+                        />
+                    </div>
+
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* LEFT — Products */}
                 <div className="bg-white border border-gray-300 rounded overflow-hidden">
-
                     {/* Header */}
                     <div className="flex justify-between items-center px-4 py-3 border-b border-gray-300 bg-gray-50">
                         <p className="text-sm font-semibold text-gray-800">Products</p>
@@ -73,21 +119,24 @@ export const BillingPage = () => {
 
                 {/* RIGHT — Bill */}
                 <div className="bg-white border border-gray-300 rounded overflow-hidden flex flex-col">
-
                     {/* Header */}
                     <div className="flex justify-between items-center px-4 py-3 border-b border-gray-300 bg-gray-50">
                         <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
                             <ShoppingCart size={16} />
                             Current Bill
                         </div>
-                        <span className="text-xs text-gray-500">{billItems.length} items</span>
+                        <span className="text-xs text-gray-500">
+                            {billItems.length} items
+                        </span>
                     </div>
 
                     {/* Bill Items */}
                     <div className="flex-1 divide-y divide-gray-200">
                         {billItems.map((item) => (
-                            <div key={item.id} className="grid grid-cols-3 items-center px-4 py-3">
-
+                            <div
+                                key={item.id}
+                                className="grid grid-cols-3 items-center px-4 py-3"
+                            >
                                 <span className="text-sm text-gray-700">{item.name}</span>
 
                                 {/* Qty Controls */}
@@ -98,7 +147,9 @@ export const BillingPage = () => {
                                     >
                                         -
                                     </button>
-                                    <span className="text-sm text-gray-800 w-4 text-center">{item.qty}</span>
+                                    <span className="text-sm text-gray-800 w-4 text-center">
+                                        {item.qty}
+                                    </span>
                                     <button
                                         onClick={() => increaseQty(item.id)}
                                         className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded text-gray-600 hover:bg-gray-100 transition-colors"
@@ -119,7 +170,6 @@ export const BillingPage = () => {
                                         <Trash2 size={14} />
                                     </button>
                                 </div>
-
                             </div>
                         ))}
                     </div>
@@ -145,11 +195,12 @@ export const BillingPage = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
                     <div className="bg-white border border-gray-300 rounded w-[300px] overflow-hidden">
-
                         {/* Modal Header */}
                         <div className="px-4 py-3 border-b border-gray-300 bg-gray-50 text-center">
                             <h3 className="text-sm font-semibold text-gray-800">My Shop</h3>
-                            <p className="text-xs text-gray-500 mt-0.5">{new Date().toLocaleString()}</p>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                                {new Date().toLocaleString()}
+                            </p>
                         </div>
 
                         {/* Bill Items */}
@@ -158,7 +209,8 @@ export const BillingPage = () => {
                                 <div key={item.id} className="py-2 text-sm text-gray-700">
                                     <p className="font-medium">{item.name}</p>
                                     <p className="text-xs text-gray-500">
-                                        {item.qty} x ₹{item.sellingPrice} = ₹{(item.sellingPrice || 0) * (item.qty || 0)}
+                                        {item.qty} x ₹{item.sellingPrice} = ₹
+                                        {(item.sellingPrice || 0) * (item.qty || 0)}
                                     </p>
                                 </div>
                             ))}
