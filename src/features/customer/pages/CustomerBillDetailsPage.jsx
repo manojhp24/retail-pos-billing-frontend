@@ -8,8 +8,8 @@ export const CustomerBillDetailsPage = () => {
     const { customerId } = useParams();
     const { bills, loading } = useCustomerBills(customerId);
     const navigate = useNavigate();
-    const handleView = (bill) => {
-        navigate(`/bill/${bill.id}`);
+    const handleView = (row) => {
+        navigate(`/billing/bill/${row.billId}`);
     };
 
     const flatData = bills.flatMap((bill) =>

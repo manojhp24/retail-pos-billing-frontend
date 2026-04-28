@@ -1,7 +1,7 @@
 import PageHeader from "@/features/shared/PageHeader";
 import { useProducts } from "@/features/product/hooks/useProducts";
 import { ProductCard } from "../components/ProductCard";
-import { useBilling } from "../hooks/useBill";
+import { useBilling } from "../hooks/useBilling";
 import { useBillingPage } from "../hooks/useBillingPage";
 import { ToastContainer } from "react-toastify";
 import { BillPrint } from "../components/BillPrint";

@@ -11,7 +11,6 @@ export const useCustomerBills = (customerId) => {
       setLoading(true);
       console.log("Customer ID:", customerId);
       const res = await getCustomerBills(customerId);
-      console.log("API DATA:", res.data);
       setBills(res.data);
     } catch (error) {
       toast.error("Failed to load bills");

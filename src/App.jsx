@@ -17,6 +17,7 @@ function App() {
           <Route path="/products/:id" element={<ProductDetailsPage />} />
           <Route path="/customer" element={<CustomerListPage />} />
           <Route path="/customer/:customerId" element={<CustomerBillDetailsPage />} />
+          <Route path="/billing/bill/:id" element={<BillDetailsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />
@@ -29,5 +30,6 @@ import InventoryList from "./features/inventory/pages/InventoryList";
 import { BillingPage } from "./features/billing/pages/BillingPage";
 import { CustomerListPage } from "./features/customer/pages/CustomerListPage";
 import { CustomerBillDetailsPage } from "./features/customer/pages/CustomerBillDetailsPage";
+import { BillDetailsPage } from "./features/billing/pages/BillDetailsPage";
 
 export default App;
